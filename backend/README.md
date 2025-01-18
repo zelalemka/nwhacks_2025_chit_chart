@@ -1,6 +1,6 @@
 # run everytime
 linux https://fastapi.tiangolo.com/virtual-environments/#activate-the-virtual-environment 
-windows powershell `nw2025\Scripts\Activate.ps1` `Get-Command python` `python -m pip install --upgrade pip` `pip install "fastapi[standard]"`
+windows powershell `.\.venv\Scripts\activate` `Get-Command python` `python -m pip install --upgrade pip` `pip install "fastapi[standard]"`
 
 # Initialization
 `python -m venv .venv`
@@ -8,9 +8,9 @@ windows powershell `nw2025\Scripts\Activate.ps1` `Get-Command python` `python -m
 
 # Supabase
 org: nwHacks2025
-pwd: EUzJv9gjMyaxJ3NS
-project_id: kbunoygknhuzlucepxhn
-database_restful_endpoint: https://kbunoygknhuzlucepxhn.supabase.co
+pwd: mhsatlgwdnlnvbacmcue
+project_id: 
+database_restful_endpoint: https://mhsatlgwdnlnvbacmcue.supabase.co
 api_key: REDACTED
 
 
@@ -28,4 +28,4 @@ requests
 numpy
 spacy
 supabase
-fastapi
+"fastapi[standard]"
