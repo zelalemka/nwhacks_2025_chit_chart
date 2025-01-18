@@ -1,38 +1,38 @@
-import { useState, useEffect } from 'react'
-import { Mic, MicOff, Loader2 } from 'lucide-react'
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import { useState, useEffect } from 'react';
+import { Mic, MicOff, Loader2 } from 'lucide-react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 export function MicrophoneButton({ onTranscriptChange, className = '' }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition
-  } = useSpeechRecognition()
+  } = useSpeechRecognition();
 
   useEffect(() => {
-    onTranscriptChange(transcript)
-  }, [transcript, onTranscriptChange])
+    onTranscriptChange(transcript);
+  }, [transcript, onTranscriptChange]);
 
   const handleClick = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       if (!listening) {
-        await SpeechRecognition.startListening({ continuous: true })
+        await SpeechRecognition.startListening({ continuous: true });
       } else {
-        SpeechRecognition.stopListening()
-        resetTranscript()
+        SpeechRecognition.stopListening();
+        resetTranscript();
       }
     } catch (error) {
-      console.error('Recording error:', error)
+      console.error('Recording error:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>
+    return <span>Browser doesn't support speech recognition.</span>;
   }
 
   return (
@@ -63,6 +63,5 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
         </span>
       )}
     </button>
-  )
+  );
 }
-
