@@ -1,11 +1,12 @@
-import { MedicalInterface } from './components/Layout/MedicalInterface'
+import React from 'react';
+import { MedicalInterface } from './components/Layout/MedicalInterface';
 
 function App() {
   return (
     <div className="App">
       <MedicalInterface />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
