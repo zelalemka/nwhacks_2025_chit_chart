@@ -1,7 +1,11 @@
-export default function App() {
+import { MedicalInterface } from './components/Layout/MedicalInterface'
+
+function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <div className="App">
+      <MedicalInterface />
+    </div>
   )
 }
+
+export default App
