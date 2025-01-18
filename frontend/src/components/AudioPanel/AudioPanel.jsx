@@ -1,22 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from "react";
 import { MicrophoneButton } from '../AudioPanel/MicrophoneButton'
 
 export function AudioPanel() {
    const [fulltranscript, setFullTranscript] = useState('');
    const [transcript, setTranscript] = useState('');
+   const [temp, setTemp] = useState('');
+
+   const fetchTemp = async () => {
+      console.log("send temp with transcript: " + fulltranscript);
+      fetch("http://127.0.0.1:8000/create_encounter", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({'transcript': fulltranscript})
+       }).then((response) => {
+         setTemp(response.data); 
+         console.log(response.data);
+      })
+   }
+   useEffect(() => {
+      fetchTemp()
+    }, [])
 
    const handleTranscriptChange = (newTranscript, record = true) => {
       if (record) {
          setTranscript(newTranscript.slice(newTranscript.length - 200));
          setFullTranscript(newTranscript);
-         console.log(fulltranscript);
       } else {
          // send api
+         console.log(`handleTranscriptChange called: ${record}`)
+         fetchTemp();
          setTranscript(newTranscript.slice(newTranscript.length - 200));
       }
    }
-   
-   console.log(fulltranscript);
+
    return (
       <>
          {/* Recording Section */}
@@ -26,6 +42,7 @@ export function AudioPanel() {
           </div>
           <div className="mt-4 h-24 bg-gray-100 rounded-lg">
             {/* Waveform visualization would go here */}
+            <p> {temp} </p>
           </div>
         </div>
 

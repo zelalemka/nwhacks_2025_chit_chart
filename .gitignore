@@ -15,8 +15,8 @@ dist-ssr
 .venv
 .venv/*
 
-nw2025
-nw2025/*
+__pycache__/
+backend/__pycache__/*
 
 .env
 

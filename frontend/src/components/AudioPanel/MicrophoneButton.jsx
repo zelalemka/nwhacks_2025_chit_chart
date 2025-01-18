@@ -27,7 +27,7 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
         await SpeechRecognition.startListening({ continuous: true });
       } else {
         SpeechRecognition.stopListening();
-
+        stopRecording();
       }
     } catch (error) {
       console.error('Recording error:', error);
