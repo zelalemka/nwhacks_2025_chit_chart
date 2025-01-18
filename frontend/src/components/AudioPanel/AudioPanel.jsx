@@ -34,7 +34,6 @@ export function AudioPanel() {
           </div>
           <div className="mt-4 h-24 bg-gray-100 rounded-lg">
             {/* Waveform visualization would go here */}
-            <p> {temp} </p>
           </div>
         </div>
 
