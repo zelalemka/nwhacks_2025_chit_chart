@@ -15,6 +15,11 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
     onTranscriptChange(transcript);
   }, [transcript, onTranscriptChange]);
 
+  function stopRecording () {
+    onTranscriptChange('', false);
+    resetTranscript();
+  }
+
   const handleClick = async () => {
     try {
       setIsLoading(true);
@@ -22,7 +27,7 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
         await SpeechRecognition.startListening({ continuous: true });
       } else {
         SpeechRecognition.stopListening();
-        resetTranscript();
+
       }
     } catch (error) {
       console.error('Recording error:', error);

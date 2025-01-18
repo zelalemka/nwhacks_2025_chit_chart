@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { MicrophoneButton } from '../AudioPanel/MicrophoneButton'
-import { StickyNoteBoard } from '../StickyNoteBoard/StickyNoteBoard'
-import { TabPanel } from '../TabPanel/TabPanel'
+import { useState } from 'react';
+import { AudioPanel } from '../AudioPanel/AudioPanel';
+import { StickyNoteBoard } from '../StickyNoteBoard/StickyNoteBoard';
+import { TabPanel } from '../TabPanel/TabPanel';
 
 // Mock data (replace with your actual data)
 const clinician = {
@@ -77,16 +77,12 @@ const symptoms = [
 
 export function MedicalInterface() {
   const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes)
-  const [transcript, setTranscript] = useState('')
 
   const handleNotesChange = (updatedNotes) => {
     setEncounterNotes(updatedNotes)
     console.log('Notes updated:', updatedNotes)
   }
 
-  const handleTranscriptChange = (newTranscript) => {
-    setTranscript(newTranscript)
-  }
 
   const formatDate = (date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -162,23 +158,7 @@ export function MedicalInterface() {
           </h1>
         </div>
 
-        {/* Recording Section */}
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-center space-x-4">
-            <MicrophoneButton onTranscriptChange={handleTranscriptChange} />
-          </div>
-          <div className="mt-4 h-24 bg-gray-100 rounded-lg">
-            {/* Waveform visualization would go here */}
-          </div>
-        </div>
-
-        {/* Transcript Section */}
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h2 className="text-lg font-medium mb-2">Transcript</h2>
-          <div className="h-32 bg-gray-50 rounded p-2 overflow-y-auto">
-            {transcript || "Transcript will appear here..."}
-          </div>
-        </div>
+        <AudioPanel />
 
         {/* Patient Info and Sticky Notes */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
