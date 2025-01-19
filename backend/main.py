@@ -73,7 +73,6 @@ def get_patient_facing_ai_summary(type: str,term: str):
         model=model_name
     )
 
-    # Assume this is in JSON 
     llm_response_text = response.choices[0].message.content 
     return llm_response_text
 
