@@ -3,6 +3,7 @@ from supabase import create_client, Client
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import List
 
 
 # TODO RUN ONCE
@@ -34,11 +35,6 @@ app.add_middleware(
 def read_root():
     return {"Charity Says": "Hello World"}
 
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id, "q": "SUP SUP"}
-
 @app.get("/clinicians")
 def read_clinicians():
    response = supabase.table("clinician").select("*").execute()
@@ -56,29 +52,25 @@ def insert_patient(name: str):
     .execute()
    )
 
-    return {"a": response}
+    return {"response": response}
 
 
 class Encounter(BaseModel):
+    clinician_id: int
+    patient_id: int
     transcript: str
+    notes: List[str]
 
 @app.post("/create_encounter")
 async def create_encounter(data: Encounter):
     print(data)
     return {'response': 200, "transcript": data.transcript}
 
-
 class Item(BaseModel):
     name: str
     description: str | None = None
     price: float
     tax: float | None = None
-
-
-@app.post("/itemsTEMP/")
-async def create_item(item: Item):
-    return item
-
 
 # @app.get("/audio")
 # def get_audio():
