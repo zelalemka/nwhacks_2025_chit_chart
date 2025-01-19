@@ -133,7 +133,8 @@ def read_clinicians():
 @app.get("/explain/{type}/{term}")
 def read_clinicians(type: str, term: str):
    llm_response = get_patient_facing_ai_summary(type, term)
-   response = {"term": term, "type": type, "explained": llm_response}
+   response = {"explained": llm_response}
+   print(response)
    return response
 
 @app.get("/encounters/{patient_id}")
