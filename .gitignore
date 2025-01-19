@@ -30,3 +30,5 @@ backend/__pycache__/*
 *.njsproj
 *.sln
 *.sw?
+
+**/supabase
