@@ -5,13 +5,13 @@ import { TabPanel } from '../TabPanel/TabPanel';
 
 // Mock data (replace with your actual data)
 const clinician = {
-  id: 128907,
+  id: 2,
   first_name: 'Kelly',
   last_name: 'Chan'
 }
 
 const patient = {
-  id: 24709,
+  id: 2,
   healthcare_number: 1424612672,
   first_name: 'Freddy',
   last_name: 'Thompson',
