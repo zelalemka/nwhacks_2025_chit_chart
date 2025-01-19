@@ -40,20 +40,22 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-def get_patient_facing_ai_summary(type: str, term: str):
-    query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
+def get_patient_facing_ai_summary(type: str,term: str):
 
-    Medication: [<medication bullet points>]
-    Symptoms: [<symptom bullet points>]
-    Disease: [<disease bullet points>]
-    Summary: “<Provide a summary here of the transcript>”
+    endpoint = "https://models.inference.ai.azure.com"
+    model_name = "Llama-3.3-70B-Instruct"
+    token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
 
-    Could you provide this as a JSON String? Please include JUST the JSON string in your response.
+    query = f"""
+    Given a type of term from the following categories - Medication, Symptoms, Disease and a term could you describe the term in about 20 words? 
 
+    Term: {term}
+    Type of Term: {type}
 
-    Transcript:\n
+    Provide ONLY the term description in your response
+    """
 
-    """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
+    print(query)
 
     client = ChatCompletionsClient(
         endpoint=endpoint,
@@ -70,18 +72,9 @@ def get_patient_facing_ai_summary(type: str, term: str):
         max_tokens=1000,
         model=model_name
     )
-    # Assume this is in JSON 
+
     llm_response_text = response.choices[0].message.content 
-    llm_response_json = {}
-
-    try:
-        llm_response_json = json.loads(llm_response_text)
-    except:
-        print("Processing Error")
-
-    return llm_response_json
-
-
+    return llm_response_text
 
 def send_llm_request(transcript, sticky_notes):
     query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
@@ -124,6 +117,9 @@ def send_llm_request(transcript, sticky_notes):
         print("Processing Error")
 
     return llm_response_json
+
+
+
 
 @app.get("/")
 def read_root():
