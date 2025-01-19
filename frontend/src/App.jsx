@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from './components/Layout/Home';
 import { MedicalInterface } from './components/Layout/MedicalInterface';
-import {  BrowserRouter,  Routes, Route } from "react-router-dom";
 
 function App() {
   return (
