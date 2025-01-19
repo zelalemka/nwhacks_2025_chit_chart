@@ -152,7 +152,7 @@ export function MedicalInterface() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-row">
+    <div className="min-h-screen bg-app-background flex flex-row">
 
       {/* Main Panel */}
       <div className="w-3/4 p-10">
@@ -164,7 +164,7 @@ export function MedicalInterface() {
           </h1>
         </div>
 
-        <AudioPanel postTranscriptRequest={postTranscriptRequest}/>
+        <AudioPanel postTranscriptRequest={postTranscriptRequest} />
 
         <TabPanel tabs={structuredInfoTabs} />
       </div>
