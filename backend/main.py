@@ -41,7 +41,7 @@ app.add_middleware(
 )
 
 def send_llm_request(transcript, sticky_notes):
-    query = """Can you go throught this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
+    query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
     Medication: [<medication bullet points>]
     Symptoms: [<symptom bullet points>]
@@ -91,7 +91,10 @@ def read_clinicians():
    response = supabase.table("clinician").select("*").execute()
    return {"data": response.data}
 
-#    return {"a": response}
+@app.get("/encounters/{patient_id}")
+def read_clinicians(patient_id: int):
+   response = supabase.table("clinician").select("*").eq("patient_id", patient_id).execute()
+   return {"data": response.data}
 
 # note disable RLS in supabase to get permissions to write and read
 @app.get("/patient/{name}")
@@ -112,8 +115,6 @@ class Encounter(BaseModel):
     transcript: str
     notes: List[str]
 
-def joelsfunction(data):
-    return ''
 
 @app.post("/create_encounter")
 async def create_encounter(data: Encounter):
@@ -134,8 +135,19 @@ async def create_encounter(data: Encounter):
         .execute())
 
     processed_llm_outputs = send_llm_request(data.transcript, data.notes)
-    return {'encounter_response': response.data, 'notes_response': e_notes, "processed": processed_llm_outputs, "transcript": data.transcript}
-
+    try:
+        if processed_llm_outputs['Summary']:
+            response = (
+            supabase.table("encounter")
+            .update({"encounter_summary": processed_llm_outputs['Summary']})
+            .eq("id", encounter_id)
+            .execute())
+    except Exception as e:
+        print("SUPABASE UPDATE ERROR:", e)
+    
+    ans = {'encounter_response': response.data, 'notes_response': e_notes, "processed": processed_llm_outputs, "transcript": data.transcript}
+    print(ans)
+    return ans
 
 # class Item(BaseModel):
 #     name: str
