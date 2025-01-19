@@ -10,6 +10,9 @@ export default {
         'app-background': "url('/src/assets/bg.svg')",
         'custom-noise': "url('/src/assets/noise.svg')",
       },
+      fontFamily: {
+        sans: ['"futura"', 'sans-serif'],
+      },
     },
   },
   plugins: [],
