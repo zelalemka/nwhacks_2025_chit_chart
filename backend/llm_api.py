@@ -47,6 +47,12 @@ def send_llm_request(transcript, sticky_notes):
     Could you provide this as a JSON String? Please include JUST the JSON string in your response.
 
 
+    Could you provide this as a JSON String? Please include JUST the JSON string in your response.
+
+
+    Transcript:\n
+    """ + transcript
+
     Transcript:\n
     """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
 
@@ -82,7 +88,7 @@ def send_llm_request(transcript, sticky_notes):
 
 
 
-
 llm_response_json = send_llm_request(transcript, sticky_notes)
+
 print(llm_response_json)
 print(type(llm_response_json))

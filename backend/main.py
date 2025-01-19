@@ -41,7 +41,6 @@ app.add_middleware(
 )
 
 def send_llm_request(transcript, sticky_notes):
-
     query = """Can you go throught this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
     Medication: [<medication bullet points>]
@@ -53,6 +52,7 @@ def send_llm_request(transcript, sticky_notes):
 
 
     Transcript:\n
+
     """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
 
     client = ChatCompletionsClient(
@@ -135,6 +135,7 @@ async def create_encounter(data: Encounter):
 
     processed_llm_outputs = send_llm_request(data.transcript, data.notes)
     return {'encounter_response': response.data, 'notes_response': e_notes, "processed": processed_llm_outputs, "transcript": data.transcript}
+
 
 # class Item(BaseModel):
 #     name: str
