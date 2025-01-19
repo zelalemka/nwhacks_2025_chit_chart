@@ -75,7 +75,7 @@ const symptoms = [
   }
 ]
 
-const port = 'https://93a7-128-189-239-208.ngrok-free.app';
+const port = 'https://4490-128-189-239-208.ngrok-free.app';
 
 export function MedicalInterface() {
   const patient_id = patient['id'];
