@@ -78,7 +78,7 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
                             value={note.text}
                             onChange={(e) => updateNote(note.id, e.target.value)}
                             placeholder="Type your note here..."
-                            className="w-full h-24 bg-transparent border-none resize-none focus:outline-none text-sm"
+                            className="w-full h-24 text-gray-600 bg-transparent border-none resize-none focus:outline-none text-sm"
                           />
                         </div>
                         <button
