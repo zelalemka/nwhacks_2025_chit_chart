@@ -92,7 +92,18 @@ export function MedicalInterface() {
         'clinician_id': clinician_id,
         'notes': encounterNotes.map((x) => x['text'])
       })
-    })
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+          throw `error with status ${response.status}`;
+      }
+    }).then((data) => {
+      console.log(data);
+    }
+    ).catch((exception) => {
+      console.log(exception);
+    });
   }
 
   const handleNotesChange = (updatedNotes) => {

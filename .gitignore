@@ -20,6 +20,8 @@ backend/__pycache__/*
 
 .env
 
+**/supabase
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
