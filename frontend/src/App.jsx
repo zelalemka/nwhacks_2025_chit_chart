@@ -5,13 +5,13 @@ import { MedicalInterface } from './components/Layout/MedicalInterface';
 import { PatientInterface } from './components/Layout/PatientInterface';
 
 const medications = [{
-  medication: "insulin",
+  medication: "Insulin",
   startdate: new Date("2024-01-05"),
   duration: "1 year",
-  dose: "every day, after meals"
+  dose: "Every day, after meals"
 }]
-const conditions = [{condition: "Diabetes type II"}];
-const symptoms = [{symptom:"stomachache"}, {symptom:"nausea"}];
+const conditions = [{ condition: "Diabetes Type II" }];
+const symptoms = [{ symptom: "Stomach Ache" }, { symptom: "Nausea" }];
 
 const initialStructuredData = {
   "conditions": conditions,
@@ -26,8 +26,8 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/doctor" element={<MedicalInterface structuredData={structuredData} setStructuredData={setStructuredData}/>} />
-          <Route path="/patient" element={<PatientInterface structuredData={structuredData}/>} />
+          <Route path="/doctor" element={<MedicalInterface structuredData={structuredData} setStructuredData={setStructuredData} />} />
+          <Route path="/patient" element={<PatientInterface structuredData={structuredData} />} />
         </Routes>
       </div>
     </BrowserRouter>
