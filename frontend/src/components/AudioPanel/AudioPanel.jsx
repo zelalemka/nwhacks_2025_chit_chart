@@ -8,8 +8,8 @@ export function AudioPanel({ postTranscriptRequest }) {
    const patient = {
       id: 4,
       healthcare_number: 1424612672,
-      first_name: 'Freddy',
-      last_name: 'Thompson',
+      first_name: 'Dillon',
+      last_name: 'Lee',
       birthdate: new Date('2012-01-01')
    }
 
@@ -35,16 +35,16 @@ export function AudioPanel({ postTranscriptRequest }) {
    return (
       <div>
          <div className="flex flex-row">
-            <div className="w-1/3 h-[calc(20vw)]  bg-white/50 p-4 rounded-lg backdrop-filter backdrop-blur-sm shadow-md bg-opacity-30 flex flex-col mr-5 mb-5 border-2 border-white">
-               <h2 className="text-lg font-medium mb-2">Patient Information</h2>
+            <div className="w-1/3 h-100  bg-white/50 p-4 rounded-lg backdrop-filter backdrop-blur-sm shadow-md bg-opacity-30 flex flex-col mr-5 mb-5 border-2 border-white">
+               <h2 className="text-lg font-semibold mb-2">Patient Information</h2>
                <div className="space-y-2">
                   <p className="text-sm md:text-base">Name: {patient.first_name} {patient.last_name}</p>
                   <p className="text-sm md:text-base">Healthcare #: {patient.healthcare_number}</p>
                   <p className="text-sm md:text-base">Birth Date: {formatDate(patient.birthdate)}</p>
                </div>
             </div>
-            <div className=" w-2/3 bg-white/50 p-4 rounded-lg backdrop-filter backdrop-blur-sm shadow-md flex flex-col mb-5 border-2 border-white">
-               <p>Start your recording</p>
+            <div className=" w-2/3 bg-white/50 p-4 rounded-lg backdrop-filter backdrop-blur-sm shadow-md flex flex-col justify-start mb-5 border-2 border-white">
+               <h2 className="text-lg font-semibold mb-2">Start your recording</h2>
                <MicrophoneButton onTranscriptChange={handleTranscriptChange} />
             </div>
          </div>
