@@ -78,7 +78,9 @@ async def create_encounter(data: Encounter):
         supabase.table("encounter_notes")
         .insert(e_note)
         .execute())
-    return {'encounter_response': response.data, 'notes_response': e_notes, "transcript": data.transcript}
+
+    obj = joelsfunction(data)
+    return {'encounter_response': response.data, 'notes_response': e_notes, "processed": obj, "transcript": data.transcript}
 
 class Item(BaseModel):
     name: str
