@@ -66,7 +66,7 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
   }
 
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row mt-5'>
       <button
         onClick={handleClick}
         disabled={isLoading}
@@ -74,8 +74,8 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
         relative flex items-center justify-center w-12 h-12
         rounded-full transition-all duration-200
         ${listening
-            ? 'bg-red-500 hover:bg-red-600'
-            : 'bg-blue-500 hover:bg-blue-600'
+            ? 'bg-orange-500 hover:bg-orange-600'
+            : 'bg-sky-500 hover:bg-sky-600'
           }
         disabled:opacity-50 disabled:cursor-not-allowed
         ${className}
