@@ -61,16 +61,24 @@ class Encounter(BaseModel):
     transcript: str
     notes: List[str]
 
-@app.put("/create_encounter")
+@app.post("/create_encounter")
 async def create_encounter(data: Encounter):
-    print(data)
+    encounter = {'clinician_id': data.clinician_id, 'patient_id': data.patient_id, 'audio_transcript': data.transcript}
     response = (
     supabase.table("encounter")
-    .insert({'clinician_id': data.clinician_id, 'patient_id': data.patient_id, 'transcript': data.transcript})
+    .insert(encounter)
     .execute()
    )
-    print(response)
-    return {'response': response, "transcript": data.transcript}
+    encounter_id = response.data[0]['id']
+    e_notes = []
+    for note in data.notes:
+        e_note = {'text': note, 'encounter_id': encounter_id}
+        e_notes.append(e_note)
+        response = (
+        supabase.table("encounter_notes")
+        .insert(e_note)
+        .execute())
+    return {'encounter_response': response.data, 'notes_response': e_notes, "transcript": data.transcript}
 
 class Item(BaseModel):
     name: str
