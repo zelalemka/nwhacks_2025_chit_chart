@@ -8,7 +8,7 @@ const formatDateString = (date) => {
   }).format(date);
 };
 
-export function TabPanel({data, className = '' }) {
+export function TabPanel({ data, className = '' }) {
   const tabs = [
     {
       id: 'condition',
@@ -72,7 +72,7 @@ export function TabPanel({data, className = '' }) {
 
   return (
     <div className={`bg-white-50 rounded-lg backdrop-filter backdrop-blur-sm shadow-md border-2 border-white ${className}`}>
-      <div className="flex border-b">
+      <div className="bg-white/50 flex border-b">
         {tabs.map(tab => (
           <button
             key={tab.id}
