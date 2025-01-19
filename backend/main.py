@@ -130,14 +130,17 @@ def read_clinicians():
    response = supabase.table("clinician").select("*").execute()
    return {"data": response.data}
 
-@app.get("/explain/{type}/{term}")
-def read_clinicians(type: str, term: str):
-   llm_response = get_patient_facing_ai_summary(type, term)
-   response = {"term": term, "type": type, "explained": llm_response}
+@app.post("/explain/{type}/{term}")
+def explainAITerm(type: str, term: str):
+   print(type, term)
+   term_noSpace = ''.join(term.split(" "))
+   llm_response = get_patient_facing_ai_summary(type, term_noSpace)
+   response = {"explained": llm_response}
+   print(response)
    return response
 
 @app.get("/encounters/{patient_id}")
-def read_clinicians(patient_id: int):
+def returnAllPtEncounters(patient_id: int):
    response = supabase.table("encounter").select("*").eq("patient_id", patient_id).execute()
    return {"data": response.data}
 
