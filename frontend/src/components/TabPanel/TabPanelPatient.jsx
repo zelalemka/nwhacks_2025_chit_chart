@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import aiImg from '../../assets/ai_logo.svg';
 
 const formatDateString = (date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -60,7 +59,7 @@ export function TabPanelPatient({ data, className = '' }) {
                             <button onClick={() =>
                                 getDefineRequest(condition.condition, 'Condition')
                             }
-                            >Define</button>
+                            >?</button>
                         </div>
                     ))}
                 </div>
@@ -84,7 +83,7 @@ export function TabPanelPatient({ data, className = '' }) {
                             <button onClick={() =>
                                 getDefineRequest(symptom.symptom, 'Symptoms')
                             }>
-                                Define
+                                ?
                             </button>
                         </div>
                     ))}
@@ -111,7 +110,7 @@ export function TabPanelPatient({ data, className = '' }) {
                             <button onClick={() =>
                                 getDefineRequest(medication.medication, 'Medications')
                             }
-                            >Define</button>
+                            >?</button>
                         </div>
                     ))}
                 </div>
