@@ -4,7 +4,7 @@ export function TabPanel({ tabs, className = '' }) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id)
 
   return (
-    <div className={`bg-white rounded-lg shadow-md ${className}`}>
+    <div className={`bg-white/50 rounded-lg backdrop-filter backdrop-blur-sm shadow-md border-2 border-white ${className}`}>
       <div className="flex border-b">
         {tabs.map(tab => (
           <button
@@ -14,7 +14,7 @@ export function TabPanel({ tabs, className = '' }) {
               flex-1 px-4 py-3 text-sm font-medium
               transition-colors duration-200
               ${activeTab === tab.id
-                ? 'text-blue-600 border-b-2 border-blue-600'
+                ? 'text-sky-600 border-b-2 border-sky-600'
                 : 'text-gray-500 hover:text-gray-700'
               }
             `}

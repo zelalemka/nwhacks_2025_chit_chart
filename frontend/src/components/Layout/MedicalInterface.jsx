@@ -113,7 +113,7 @@ export function MedicalInterface() {
       label: 'Condition',
       content: (
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
+          <div className="p-4 bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
             <h3 className="font-medium">{condition.condition}</h3>
             <p className="text-sm text-gray-600">
               Since: {formatDate(condition.startdate)}
@@ -122,7 +122,7 @@ export function MedicalInterface() {
           <div className="space-y-2">
             <h4 className="font-medium">Related Symptoms</h4>
             {symptoms.map(symptom => (
-              <div key={symptom.id} className="p-3 bg-gray-50 rounded-lg">
+              <div key={symptom.id} className="p-3  bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
                 <p className="font-medium">{symptom.symptom}</p>
                 {symptom.occurence_pattern && (
                   <p className="text-sm text-gray-600">
@@ -139,7 +139,7 @@ export function MedicalInterface() {
       id: 'medication',
       label: 'Medication',
       content: (
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="p-4 bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
           <h3 className="font-medium">{medication.medication}</h3>
           <p className="text-sm text-gray-600">Dose: {medication.dose}</p>
           <p className="text-sm text-gray-600">Duration: {medication.duration}</p>
