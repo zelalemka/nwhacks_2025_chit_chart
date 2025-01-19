@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'app-background': "url('src/assets/bg.svg')",
-        'custom-noise': "url('src/assets/noise.svg')",
+        'app-background': "url('/img/bg.svg')",
+        'custom-noise': "url('/img/noise.svg')",
       },
     },
   },
