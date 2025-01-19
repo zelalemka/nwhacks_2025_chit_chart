@@ -45,10 +45,10 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
   return (
     <div className={`p-4 ${className}`}>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Encounter Notes</h2>
+        <h2 className="text-xl font-semibold">Encounter Notes</h2>
         <button
           onClick={addNote}
-          className="p-2 text-blue-500 hover:bg-blue-50 rounded-full transition-colors"
+          className="p-2 text-sky-500 hover:bg-blue-50 rounded-full transition-colors"
         >
           <Plus className="w-5 h-5" />
         </button>
@@ -63,9 +63,8 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className={`relative bg-yellow-100 rounded-lg shadow-sm transition-shadow ${
-                        snapshot.isDragging ? 'shadow-md' : ''
-                      }`}
+                      className={`relative bg-orange-100 rounded-lg shadow-sm transition-shadow ${snapshot.isDragging ? 'shadow-md' : ''
+                        }`}
                     >
                       <div className="flex items-start p-3">
                         <div
