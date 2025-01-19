@@ -13,6 +13,8 @@ project_id:
 database_restful_endpoint: https://mhsatlgwdnlnvbacmcue.supabase.co
 api_key: REDACTED
 
+# Supabase
+https://supabase.com/docs/guides/self-hosting/docker
 
 # Terraform validation
 `terraform -help`

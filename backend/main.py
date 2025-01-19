@@ -63,8 +63,24 @@ class Encounter(BaseModel):
 
 @app.post("/create_encounter")
 async def create_encounter(data: Encounter):
-    print(data)
-    return {'response': 200, "transcript": data.transcript}
+    encounter = {'clinician_id': data.clinician_id, 'patient_id': data.patient_id, 'audio_transcript': data.transcript}
+    response = (
+    supabase.table("encounter")
+    .insert(encounter)
+    .execute()
+   )
+    encounter_id = response.data[0]['id']
+    e_notes = []
+    for note in data.notes:
+        e_note = {'text': note, 'encounter_id': encounter_id}
+        e_notes.append(e_note)
+        response = (
+        supabase.table("encounter_notes")
+        .insert(e_note)
+        .execute())
+
+    obj = joelsfunction(data)
+    return {'encounter_response': response.data, 'notes_response': e_notes, "processed": obj, "transcript": data.transcript}
 
 class Item(BaseModel):
     name: str

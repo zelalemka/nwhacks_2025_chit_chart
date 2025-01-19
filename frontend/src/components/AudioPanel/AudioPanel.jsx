@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 import { MicrophoneButton } from '../AudioPanel/MicrophoneButton'
 
-export function AudioPanel() {
+export function AudioPanel({postTranscriptRequest}) {
    const [fulltranscript, setFullTranscript] = useState('');
    const [transcript, setTranscript] = useState('');
 
-   const postTranscript = async () => {
-      console.log("post Transcript: " + fulltranscript);
-      fetch("http://127.0.0.1:8000/create_encounter", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({'transcript': fulltranscript})
-       })
-   }
+   
 
    const handleTranscriptChange = (newTranscript, record = true) => {
       if (record) {
@@ -20,7 +13,7 @@ export function AudioPanel() {
          setFullTranscript(newTranscript);
       } else {
          // send api
-         postTranscript();
+         postTranscriptRequest(fulltranscript);
          setTranscript(newTranscript.slice(newTranscript.length - 200));
       }
    }
