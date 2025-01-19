@@ -5,6 +5,7 @@
 note: assumes you use npm and not yarn- yarn instructions are similar tho so no worries
 - `npm install` to install node packages on local device
 - `npm run dev` to run locally
+- `npm run build` to build and serve
 
 # Charity Instructions for initializing app
 - [Vite documentation](https://vite.dev/guide/)

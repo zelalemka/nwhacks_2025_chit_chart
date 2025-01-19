@@ -6,6 +6,10 @@ windows powershell `.\.venv\Scripts\activate` `Get-Command python` `python -m pi
 `python -m venv .venv`
 
 
+# Using ngrok to provide public api key
+`ngrok config add-authtoken <token> `
+`ngrok http http://127.0.0.1:8000/`
+
 # Supabase
 org: nwHacks2025
 pwd: mhsatlgwdnlnvbacmcue
