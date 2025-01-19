@@ -37,7 +37,7 @@ def send_llm_request(transcript, sticky_notes):
     model_name = "Llama-3.3-70B-Instruct"
     token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
 
-    query = """Can you go throught this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
+    query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
     Medication: [<medication bullet points>]
     Symptoms: [<symptom bullet points>]
@@ -49,9 +49,6 @@ def send_llm_request(transcript, sticky_notes):
 
     Could you provide this as a JSON String? Please include JUST the JSON string in your response.
 
-
-    Transcript:\n
-    """ + transcript
 
     Transcript:\n
     """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
@@ -86,9 +83,47 @@ def send_llm_request(transcript, sticky_notes):
 
     return llm_response_json
 
+def send_llm_request_term(type: str,term: str):
+
+    endpoint = "https://models.inference.ai.azure.com"
+    model_name = "Llama-3.3-70B-Instruct"
+    token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
+
+    query = f"""
+    Given a type of term from the following categories - Medication, Symptoms, Disease and a term could you describe the term in about 20 words? 
+
+    Term: {term}
+    Type of Term: {type}
+
+    Provide ONLY the term description in your response
+    """
+
+    print(query)
+
+    client = ChatCompletionsClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(token),
+    )
+
+    response = client.complete(
+        messages=[
+            SystemMessage(content="You are a helpful assistant."),
+            UserMessage(content=query),
+        ],
+        temperature=1.0,
+        top_p=1.0,
+        max_tokens=1000,
+        model=model_name
+    )
+
+    # Assume this is in JSON 
+    llm_response_text = response.choices[0].message.content 
+    return llm_response_text
 
 
-llm_response_json = send_llm_request(transcript, sticky_notes)
+print(send_llm_request_term("Disease","Type 2 Diabetes"))
 
-print(llm_response_json)
-print(type(llm_response_json))
+# llm_response_json = send_llm_request(transcript, sticky_notes)
+
+# print(llm_response_json)
+# print(type(llm_response_json))
