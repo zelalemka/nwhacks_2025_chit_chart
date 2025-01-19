@@ -1,17 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MicrophoneButton } from '../AudioPanel/MicrophoneButton'
 
 export function AudioPanel() {
    const [fulltranscript, setFullTranscript] = useState('');
    const [transcript, setTranscript] = useState('');
 
+   const patient = {
+      id: 24709,
+      healthcare_number: 1424612672,
+      first_name: 'Freddy',
+      last_name: 'Thompson',
+      birthdate: new Date('2012-01-01')
+    }
+
+   const formatDate = (date) => {
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(date)
+    }
+
    const postTranscript = async () => {
       console.log("post Transcript: " + fulltranscript);
       fetch("http://127.0.0.1:8000/create_encounter", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({'transcript': fulltranscript})
-       })
+         body: JSON.stringify({ 'transcript': fulltranscript })
+      })
    }
 
    const handleTranscriptChange = (newTranscript, record = true) => {
@@ -26,24 +42,26 @@ export function AudioPanel() {
    }
 
    return (
-      <>
-         {/* Recording Section */}
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <div className="flex items-center justify-center space-x-4">
-            <MicrophoneButton onTranscriptChange={handleTranscriptChange} />
-          </div>
-          <div className="mt-4 h-24 bg-gray-100 rounded-lg">
-            {/* Waveform visualization would go here */}
-          </div>
-        </div>
-
-        {/* Transcript Section */}
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h2 className="text-lg font-medium mb-2">Transcript</h2>
-          <div className="h-32 bg-gray-50 rounded p-2 overflow-y-auto">
-            {transcript || "Transcript will appear here..."}
-          </div>
-        </div>
-      </>
+      <div>
+         <div className="flex flex-row">
+            <div className="w-1/3 h-[calc(20vw)] bg-white p-4 rounded-lg shadow-md flex flex-col mr-5 mb-5">
+               <h2 className="text-lg font-medium mb-2">Patient Information</h2>
+               <div className="space-y-2">
+                  <p className="text-sm md:text-base">Name: {patient.first_name} {patient.last_name}</p>
+                  <p className="text-sm md:text-base">Healthcare #: {patient.healthcare_number}</p>
+                  <p className="text-sm md:text-base">Birth Date: {formatDate(patient.birthdate)}</p>
+               </div>
+            </div>
+            <div className=" w-2/3 bg-white p-4 rounded-lg shadow-md flex flex-col mb-5">
+               <p>Start your recording</p>
+               <MicrophoneButton onTranscriptChange={handleTranscriptChange} />
+            </div>
+         </div>
+         <div className="bg-white p-4 rounded-lg shadow-md mb-5">
+            <div className="h-24 rounded overflow-y-auto">
+               {transcript || "Transcript will appear here..."}
+            </div>
+         </div>
+      </div>
    );
 }

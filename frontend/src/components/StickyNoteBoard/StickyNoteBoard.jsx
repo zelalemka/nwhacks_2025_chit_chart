@@ -44,7 +44,7 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
   }
 
   return (
-    <div className={`p-4 bg-white rounded-lg shadow-md ${className}`}>
+    <div className={`p-4 ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-gray-800">Encounter Notes</h2>
         <button
@@ -80,7 +80,7 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
                             value={note.text}
                             onChange={(e) => updateNote(note.id, e.target.value)}
                             placeholder="Type your note here..."
-                            className="w-full h-24 bg-transparent border-none resize-none focus:ring-0 text-sm"
+                            className="w-full h-24 bg-transparent border-none resize-none focus:outline-none text-sm"
                           />
                         </div>
                         <button

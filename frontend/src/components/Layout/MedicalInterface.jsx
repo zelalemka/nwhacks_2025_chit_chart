@@ -3,22 +3,7 @@ import { AudioPanel } from '../AudioPanel/AudioPanel';
 import { StickyNoteBoard } from '../StickyNoteBoard/StickyNoteBoard';
 import { TabPanel } from '../TabPanel/TabPanel';
 
-// Mock data (replace with your actual data)
-const clinician = {
-  id: 128907,
-  first_name: 'Kelly',
-  last_name: 'Chan'
-}
-
-const patient = {
-  id: 24709,
-  healthcare_number: 1424612672,
-  first_name: 'Freddy',
-  last_name: 'Thompson',
-  age: 12,
-  birthdate: new Date('2012-01-01')
-}
-
+// Mock data
 const initialEncounterNotes = [
   {
     id: '1',
@@ -82,7 +67,6 @@ export function MedicalInterface() {
     setEncounterNotes(updatedNotes)
     console.log('Notes updated:', updatedNotes)
   }
-
 
   const formatDate = (date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -149,36 +133,33 @@ export function MedicalInterface() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-4xl mx-auto space-y-4">
-        {/* Profile Section */}
-        <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className="min-h-screen bg-gray-50 flex flex-row">
+
+      {/* Main Panel */}
+      <div className="w-3/4 p-10">
+
+        {/* Physician Profile */}
+        <div className="p-4">
           <h1 className="text-xl font-semibold">
-            Dr. {clinician.first_name} {clinician.last_name}
+            Welcome Back, Doctor
           </h1>
         </div>
 
         <AudioPanel />
 
-        {/* Patient Info and Sticky Notes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h2 className="text-lg font-medium mb-2">Patient Information</h2>
-            <div className="space-y-2">
-              <p>Name: {patient.first_name} {patient.last_name}</p>
-              <p>Healthcare #: {patient.healthcare_number}</p>
-              <p>Age: {patient.age}</p>
-              <p>Birth Date: {formatDate(patient.birthdate)}</p>
-            </div>
-          </div>
-          <StickyNoteBoard 
-            initialNotes={encounterNotes}
-            onNoteChange={handleNotesChange}
-          />
-        </div>
-
-        {/* Structured Info Tabs */}
         <TabPanel tabs={structuredInfoTabs} />
+      </div>
+
+      {/* Side Panel */}
+      <div className="w-1/4">
+        <div className="flex flex-col">
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <StickyNoteBoard
+              initialNotes={encounterNotes}
+              onNoteChange={handleNotesChange}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
