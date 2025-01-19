@@ -1,4 +1,3 @@
-import React from 'react';
 import { MedicalInterface } from './components/Layout/MedicalInterface';
 
 function App() {
