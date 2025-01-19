@@ -34,53 +34,28 @@ const initialEncounterNotes = [
   }
 ]
 
-const medication = {
-  id: 120712,
-  patient_id: 24709,
-  medication: "aspirin",
-  startdate: new Date(),
+const medications = [{
+  medication: "insulin",
+  startdate: new Date("2024-01-05"),
   duration: "1 year",
-  dose: "2x week, before meals"
+  dose: "every day, after meals"
+}]
+const conditions = [{condition: "Diabetes type II"}];
+const symptoms = [{symptom:"stomachache"}, {symptom:"nausea"}];
+
+const initialStructuredData = {
+  "conditions": conditions,
+  'symptoms': symptoms,
+  "medications": medications
 }
 
-const symptom = {
-  id: 89220,
-  patient_id: 24709,
-  symptom: "heart palpitations",
-  occurence: "twice a month",
-  startdate: new Date()
-}
-
-const condition = {
-  id: 124098,
-  patient_id: 24709,
-  condition: "Diabetes type II",
-  startdate: new Date()
-}
-
-const symptoms = [
-  {
-    id: 912,
-    patient_id: 24709,
-    symptom: "stomachache",
-    occurence_pattern: "mornings",
-    startdate: new Date()
-  },
-  {
-    id: 913,
-    patient_id: 24709,
-    symptom: "nausea",
-    occurence_pattern: "after eating sweets",
-    startdate: new Date()
-  }
-]
-
-const port = 'https://93a7-128-189-239-208.ngrok-free.app';
+const port = 'https://4490-128-189-239-208.ngrok-free.app';
 
 export function MedicalInterface() {
   const patient_id = patient['id'];
   const clinician_id = clinician['id'];
   const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes);
+  const [structuredData, setStructuredData] = useState(initialStructuredData);
 
   const postTranscriptRequest = async (fulltranscript) => {
     console.log("post Transcript: " + fulltranscript);
@@ -101,6 +76,12 @@ export function MedicalInterface() {
       }
     }).then((data) => {
       console.log(data);
+      const newStructuredData = {
+        "conditions": structuredData.conditions.concat(data['processed']['Disease'].map((x) => {return {"condition": x};})),
+        'symptoms': structuredData.symptoms.concat(data['processed']['Symptoms'].map((x) => {return {"symptom": x};})),
+        "medications": structuredData.medications.concat(data['processed']['Medication'].map((x) => {return {"medication": x};}))
+      };      
+      setStructuredData(newStructuredData);
     }
     ).catch((exception) => {
       console.log(exception);
@@ -110,59 +91,6 @@ export function MedicalInterface() {
   const handleNotesChange = (updatedNotes) => {
     setEncounterNotes(updatedNotes)
   }
-
-  const formatDate = (date) => {
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).format(date)
-  }
-
-  const structuredInfoTabs = [
-    {
-      id: 'condition',
-      label: 'Condition',
-      content: (
-        <div className="space-y-4">
-          <div className="p-4 bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
-            <h3 className="font-medium">{condition.condition}</h3>
-            <p className="text-sm text-gray-600">
-              Since: {formatDate(condition.startdate)}
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h4 className="font-medium">Related Symptoms</h4>
-            {symptoms.map(symptom => (
-              <div key={symptom.id} className="p-3  bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
-                <p className="font-medium">{symptom.symptom}</p>
-                {symptom.occurence_pattern && (
-                  <p className="text-sm text-gray-600">
-                    Pattern: {symptom.occurence_pattern}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'medication',
-      label: 'Medication',
-      content: (
-        <div className="p-4 bg-gray/50 rounded-lg backdrop-filter backdrop-blur-sm bg-opacity-30">
-          <h3 className="font-medium">{medication.medication}</h3>
-          <p className="text-sm text-gray-600">Dose: {medication.dose}</p>
-          <p className="text-sm text-gray-600">Duration: {medication.duration}</p>
-          <p className="text-sm text-gray-600">
-            Started: {formatDate(medication.startdate)}
-          </p>
-        </div>
-      )
-    }
-  ]
-
   return (
     <div className=" bg-cover min-h-screen bg-app-background bg-no-repeat flex flex-row">
 
@@ -177,9 +105,9 @@ export function MedicalInterface() {
           </h1>
         </div>
 
-        <AudioPanel postTranscriptRequest={postTranscriptRequest} />
+        <AudioPanel postTranscriptRequest={postTranscriptRequest} patient={patient} />
 
-        <TabPanel tabs={structuredInfoTabs} />
+        <TabPanel data={structuredData} />
       </div>
 
       {/* Side Panel */}

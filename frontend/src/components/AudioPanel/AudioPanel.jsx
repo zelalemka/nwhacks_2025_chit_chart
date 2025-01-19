@@ -1,23 +1,15 @@
 import { useState } from "react";
 import { MicrophoneButton } from '../AudioPanel/MicrophoneButton'
 
-export function AudioPanel({ postTranscriptRequest }) {
+export function AudioPanel({ postTranscriptRequest, patient}) {
    const [fulltranscript, setFullTranscript] = useState('');
    const [transcript, setTranscript] = useState('');
-
-   const patient = {
-      id: 4,
-      healthcare_number: 1424612672,
-      first_name: 'Dillon',
-      last_name: 'Lee',
-      birthdate: new Date('2012-01-01')
-   }
-
+   
    const formatDate = (date) => {
       return new Intl.DateTimeFormat('en-US', {
-         year: 'numeric',
-         month: 'long',
-         day: 'numeric'
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
       }).format(date)
    }
 
