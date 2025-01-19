@@ -20,14 +20,11 @@ encounter = {
    "id": 120712,
    "clinician_id": 128907,
    "patient_id": 24709,
+   "transcript": "optional",
    "startdatetime": datetime, # optional
    "enddatetime": datetime, # optional
 }
 
-raw_encounter = {
-   "encounter_id": 120712,
-   "audio_id": 1214
-}
 
 encounter_notes = [
    {
