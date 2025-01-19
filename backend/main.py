@@ -5,6 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage, UserMessage
+from azure.core.credentials import AzureKeyCredential
+import json
 
 # TODO RUN ONCE
 os.environ['SUPABASE_URL'] = 'https://mhsatlgwdnlnvbacmcue.supabase.co'
@@ -13,6 +17,11 @@ os.environ['SUPABASE_KEY'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
+
+endpoint = "https://models.inference.ai.azure.com"
+model_name = "Llama-3.3-70B-Instruct"
+token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
+
 
 app = FastAPI()
 
@@ -30,6 +39,54 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+def send_llm_request(transcript, sticky_notes):
+
+    endpoint = "https://models.inference.ai.azure.com"
+    model_name = "Llama-3.3-70B-Instruct"
+    token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
+
+    sticky_notes = ["Note1", "Note2"]
+    query = """Can you go throught this medical appointment and summarize key points into the following categories in the following format:
+
+    Medication: [<medication bullet points>]
+    Symptoms: [<symptom bullet points>]
+    Disease: [<disease bullet points>]
+    Summary: “<Provide a summary here of the transcript>”
+
+    Could you provide this as a JSON String? Please include JUST the JSON string in your response.
+
+
+    Transcript:\n
+    """ + transcript
+
+
+    client = ChatCompletionsClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(token),
+    )
+
+    response = client.complete(
+        messages=[
+            SystemMessage(content="You are a helpful assistant."),
+            UserMessage(content=query),
+        ],
+        temperature=1.0,
+        top_p=1.0,
+        max_tokens=1000,
+        model=model_name
+    )
+
+    # Assume this is in JSON 
+    llm_response_text = response.choices[0].message.content 
+    llm_response_json = {}
+
+    try:
+        llm_response_json = json.loads(llm_response_text)
+    except:
+        print("Processing Error")
+
+    return llm_response_json
 
 @app.get("/")
 def read_root():
@@ -79,14 +136,14 @@ async def create_encounter(data: Encounter):
         .insert(e_note)
         .execute())
 
-    obj = joelsfunction(data)
+    obj = ""
     return {'encounter_response': response.data, 'notes_response': e_notes, "processed": obj, "transcript": data.transcript}
 
-class Item(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    tax: float | None = None
+# class Item(BaseModel):
+#     name: str
+#     description: str | None = None
+#     price: float
+#     tax: float | None = None
 
 # @app.get("/audio")
 # def get_audio():
