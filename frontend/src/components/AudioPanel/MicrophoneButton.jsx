@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useAudioRecorder } from "react-audio-voice-recorder";
@@ -6,6 +6,9 @@ import { LiveAudioVisualizer } from "react-audio-visualize";
 
 export function MicrophoneButton({ onTranscriptChange, className = '' }) {
   const [isLoading, setIsLoading] = useState(false);
+  const visualizerContainerRef = useRef(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+
   const {
     transcript,
     listening,
@@ -18,7 +21,7 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
     onTranscriptChange(transcript);
   }, [transcript, onTranscriptChange]);
 
-  function stopRecording () {
+  function stopRecording() {
     onTranscriptChange('', false);
     resetTranscript();
     recorderControls.stopRecording();
@@ -41,12 +44,29 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
     }
   };
 
+  useEffect(() => {
+    const container = visualizerContainerRef.current;
+
+    if (container) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          const { width, height } = entry.contentRect;
+          setContainerSize({ width, height });
+        }
+      });
+
+      resizeObserver.observe(container);
+
+      return () => resizeObserver.disconnect();
+    }
+  }, []);
+
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
   return (
-    <div>
+    <div className='flex flex-row'>
       <button
         onClick={handleClick}
         disabled={isLoading}
@@ -74,18 +94,22 @@ export function MicrophoneButton({ onTranscriptChange, className = '' }) {
           </span>
         )}
       </button>
-      {recorderControls.mediaRecorder && (
-        <Suspense>
-          <LiveAudioVisualizer
-            mediaRecorder={recorderControls.mediaRecorder}
-            barWidth={5}
-            gap={2}
-            width={550}
-            height={30}
-            minDecibels={-55} 
-          />
-        </Suspense>
-      )}
+      <div className="w-full pl-6 pr-6" ref={visualizerContainerRef}>
+        {recorderControls.mediaRecorder ? (
+          <Suspense>
+            <LiveAudioVisualizer
+              mediaRecorder={recorderControls.mediaRecorder}
+              barWidth={5}
+              gap={2}
+              minDecibels={-55}
+              width={containerSize.width}
+              height={containerSize.height}
+            />
+          </Suspense>
+        ) : (
+          <div className="h-1/2 border-b-2 border-dashed" style={{ width: containerSize.width }}></div>
+        )}
+      </div>
     </div>
   );
 }
