@@ -9,9 +9,10 @@ export default {
       backgroundImage: {
         'app-background': "url('/src/assets/bg.svg')",
         'custom-noise': "url('/src/assets/noise.svg')",
+        'big-logo': "url('/src/assets/chit-chart_logo.svg')",
       },
       fontFamily: {
-        sans: ['"futura"', 'sans-serif'],
+        sans: ['"futura"', '"gadugi"'],
       },
     },
   },
