@@ -40,6 +40,49 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+def get_patient_facing_ai_summary(type: str, term: str):
+    query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
+
+    Medication: [<medication bullet points>]
+    Symptoms: [<symptom bullet points>]
+    Disease: [<disease bullet points>]
+    Summary: “<Provide a summary here of the transcript>”
+
+    Could you provide this as a JSON String? Please include JUST the JSON string in your response.
+
+
+    Transcript:\n
+
+    """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
+
+    client = ChatCompletionsClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(token),
+    )
+
+    response = client.complete(
+        messages=[
+            SystemMessage(content="You are a helpful assistant."),
+            UserMessage(content=query),
+        ],
+        temperature=1.0,
+        top_p=1.0,
+        max_tokens=1000,
+        model=model_name
+    )
+    # Assume this is in JSON 
+    llm_response_text = response.choices[0].message.content 
+    llm_response_json = {}
+
+    try:
+        llm_response_json = json.loads(llm_response_text)
+    except:
+        print("Processing Error")
+
+    return llm_response_json
+
+
+
 def send_llm_request(transcript, sticky_notes):
     query = """Can you go through this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
@@ -91,9 +134,15 @@ def read_clinicians():
    response = supabase.table("clinician").select("*").execute()
    return {"data": response.data}
 
+@app.get("/explain/{type}/{term}")
+def read_clinicians(type: str, term: str):
+   llm_response = get_patient_facing_ai_summary(type, term)
+   response = {"term": term, "type": type, "explained": llm_response}
+   return response
+
 @app.get("/encounters/{patient_id}")
 def read_clinicians(patient_id: int):
-   response = supabase.table("clinician").select("*").eq("patient_id", patient_id).execute()
+   response = supabase.table("encounter").select("*").eq("patient_id", patient_id).execute()
    return {"data": response.data}
 
 # note disable RLS in supabase to get permissions to write and read
