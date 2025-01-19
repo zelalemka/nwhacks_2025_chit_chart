@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const formatDateString = (date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -13,8 +14,10 @@ const port = 'https://4490-128-189-239-208.ngrok-free.app';
 export function TabPanelPatient({ data, className = '' }) {
     const [definition, setDefinition] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getDefineRequest = (term, type) => {
+        setIsLoading(true);
         fetch(`${port}/explain/${type}/${term}`, {
             headers: {
                 "Content-Type": "application/json",
@@ -30,7 +33,8 @@ export function TabPanelPatient({ data, className = '' }) {
         }).then((data) => {
             console.log(data);
             setDefinition(data.explained);
-            setIsPopupOpen(true); 
+            setIsPopupOpen(true);
+            setIsLoading(false);
         }).catch((exception) => {
             console.log(exception);
         });
@@ -145,6 +149,13 @@ export function TabPanelPatient({ data, className = '' }) {
             </div>
 
             {/* Popup to display definition */}
+            {isLoading && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full flex flex-row justify-center align-center">
+                        <Loader2 className="w-12 h-12 animate-spin" />
+                    </div>
+                </div>
+            )}
             {isPopupOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
