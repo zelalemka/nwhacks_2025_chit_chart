@@ -4,6 +4,11 @@ from azure.ai.inference.models import SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
 import json
 
+"""
+Requirements: 
+azure-ai-inference
+"""
+
 
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "Llama-3.3-70B-Instruct"
@@ -50,11 +55,9 @@ def send_request():
 
     return response
 
-# Assume this is in JSON - otherwise
+# Assume this is in JSON 
 llm_response_text = send_request().choices[0].message.content 
 llm_response_json = {}
-# print(llm_response_text)
-# print(type(llm_response_text))
 
 try:
     llm_response_json = json.loads(llm_response_text)
