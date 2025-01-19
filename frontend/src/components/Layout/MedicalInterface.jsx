@@ -11,7 +11,7 @@ const clinician = {
 }
 
 const patient = {
-  id: 2,
+  id: 4,
   healthcare_number: 1424612672,
   first_name: 'Freddy',
   last_name: 'Thompson',
@@ -20,21 +20,9 @@ const patient = {
 }
 
 const initialEncounterNotes = [
-  {
-    id: '1',
-    encounter_id: 120712,
-    text: "palpitations, no specific precipitating factors"
-  },
-  {
-    id: '2',
-    encounter_id: 120712,
-    text: "feels faint but did not lose consciousness"
-  },
-  {
-    id: '3',
-    encounter_id: 120712,
-    text: "PMH: negative"
-  }
+   "palpitations, no specific precipitating factors",
+   "feels faint but did not lose consciousness",
+   "PMH: negative"
 ]
 
 const medication = {
@@ -46,10 +34,11 @@ const medication = {
   dose: "2x week, before meals"
 }
 
-const allergy = {
+const symptom = {
   id: 89220,
   patient_id: 24709,
-  allergy: "aspirin",
+  symptom: "heart palpitations",
+  occurence: "twice a month",
   startdate: new Date()
 }
 
@@ -76,13 +65,29 @@ const symptoms = [
 ]
 
 export function MedicalInterface() {
+  const patient_id = patient['id'];
+  const clinician_id = clinician['id']; 
   const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes)
+
+   
+  const postTranscriptRequest = async (fulltranscript) => {
+   console.log("post Transcript: " + fulltranscript);
+   fetch("http://127.0.0.1:8000/create_encounter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+         'transcript': fulltranscript, 
+         'patient_id': patient_id,
+         'clinician_id': clinician_id,
+         'notes': encounterNotes
+      })
+    })
+}
 
   const handleNotesChange = (updatedNotes) => {
     setEncounterNotes(updatedNotes)
     console.log('Notes updated:', updatedNotes)
   }
-
 
   const formatDate = (date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -135,13 +140,14 @@ export function MedicalInterface() {
       )
     },
     {
-      id: 'allergy',
-      label: 'Allergy',
+      id: 'symptom',
+      label: 'Symptom',
       content: (
         <div className="p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-medium">{allergy.allergy}</h3>
+          <h3 className="font-medium">{symptom.symptom}</h3>
           <p className="text-sm text-gray-600">
-            Since: {formatDate(allergy.startdate)}
+            Since: {formatDate(symptom.startdate)}
+            Occurence: {formatDate(symptom.occurence)}
           </p>
         </div>
       )
@@ -158,7 +164,7 @@ export function MedicalInterface() {
           </h1>
         </div>
 
-        <AudioPanel />
+        <AudioPanel postTranscriptRequest={postTranscriptRequest}/>
 
         {/* Patient Info and Sticky Notes */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
