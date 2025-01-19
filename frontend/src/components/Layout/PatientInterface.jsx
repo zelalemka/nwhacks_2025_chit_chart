@@ -1,4 +1,4 @@
-import { TabPanel } from '../TabPanel/TabPanel';
+import { TabPanelPatient } from '../TabPanel/TabPanelPatient';
 import logoImage from '../../assets/small_logo.png';
 
 const encounters = [
@@ -31,7 +31,7 @@ export function PatientInterface({ structuredData }) {
 
                     <div>
                         <h2 className="text-xl font-semibold my-4">Health Record</h2>
-                        <TabPanel data={structuredData} />
+                        <TabPanelPatient data={structuredData} />
                     </div>
                 </div>
 
