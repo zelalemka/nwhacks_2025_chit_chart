@@ -1,47 +1,46 @@
-import { useState } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Plus, X, GripVertical } from 'lucide-react'
+import { useState } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Plus, X, GripVertical } from 'lucide-react';
 
 export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '' }) {
-  const [notes, setNotes] = useState(initialNotes)
+  const [notes, setNotes] = useState(initialNotes);
 
   const addNote = () => {
     const newNote = {
-      id: Date.now().toString(),
-      encounter_id: notes[0]?.encounter_id,
+      id: Date.now().toString() + notes.length,
       text: ''
-    }
-    const updatedNotes = [...notes, newNote]
-    setNotes(updatedNotes)
-    onNoteChange?.(updatedNotes)
-  }
+    };
+    const updatedNotes = [...notes, newNote];
+    setNotes(updatedNotes);
+    onNoteChange?.(updatedNotes);
+  };
 
   const updateNote = (id, text) => {
-    const updatedNotes = notes.map(note => 
+    const updatedNotes = notes.map(note =>
       note.id === id ? { ...note, text } : note
-    )
-    setNotes(updatedNotes)
-    onNoteChange?.(updatedNotes)
-  }
+    );
+    setNotes(updatedNotes);
+    onNoteChange?.(updatedNotes);
+  };
 
   const deleteNote = (id) => {
-    const updatedNotes = notes.filter(note => note.id !== id)
-    setNotes(updatedNotes)
-    onNoteChange?.(updatedNotes)
-  }
+    const updatedNotes = notes.filter(note => note.id !== id);
+    setNotes(updatedNotes);
+    onNoteChange?.(updatedNotes);
+  };
 
   const onDragEnd = (result) => {
     if (!result.destination) {
-      return
+      return;
     }
 
-    const reorderedNotes = Array.from(notes)
-    const [reorderedItem] = reorderedNotes.splice(result.source.index, 1)
-    reorderedNotes.splice(result.destination.index, 0, reorderedItem)
+    const reorderedNotes = Array.from(notes);
+    const [reorderedItem] = reorderedNotes.splice(result.source.index, 1);
+    reorderedNotes.splice(result.destination.index, 0, reorderedItem);
 
-    setNotes(reorderedNotes)
-    onNoteChange?.(reorderedNotes)
-  }
+    setNotes(reorderedNotes);
+    onNoteChange?.(reorderedNotes);
+  };
 
   return (
     <div className={`p-4 bg-white rounded-lg shadow-md ${className}`}>
@@ -100,6 +99,5 @@ export function StickyNoteBoard({ initialNotes = [], onNoteChange, className = '
         </Droppable>
       </DragDropContext>
     </div>
-  )
+  );
 }
-

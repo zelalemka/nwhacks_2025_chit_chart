@@ -20,9 +20,14 @@ const patient = {
 }
 
 const initialEncounterNotes = [
-   "palpitations, no specific precipitating factors",
-   "feels faint but did not lose consciousness",
-   "PMH: negative"
+   {"text": "palpitations, no specific precipitating factors", 
+    "id": Date.now().toString()},
+   {"text": "faint but did not lose consciousness",
+   "id": Date.now().toString() + 1
+   },
+   {"text": "PMH: negative",
+   "id": Date.now().toString() + 2
+   }
 ]
 
 const medication = {
@@ -54,21 +59,22 @@ const symptoms = [
     id: 912,
     patient_id: 24709,
     symptom: "stomachache",
-    occurence_pattern: "mornings"
+    occurence_pattern: "mornings",
+    startdate: new Date()
   },
   {
     id: 913,
     patient_id: 24709,
     symptom: "nausea",
-    occurence_pattern: "after eating sweets"
+    occurence_pattern: "after eating sweets",
+    startdate: new Date()
   }
 ]
 
 export function MedicalInterface() {
   const patient_id = patient['id'];
   const clinician_id = clinician['id']; 
-  const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes)
-
+  const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes);
    
   const postTranscriptRequest = async (fulltranscript) => {
    console.log("post Transcript: " + fulltranscript);
@@ -79,14 +85,13 @@ export function MedicalInterface() {
          'transcript': fulltranscript, 
          'patient_id': patient_id,
          'clinician_id': clinician_id,
-         'notes': encounterNotes
+         'notes': encounterNotes.map((x) => x['text'])
       })
     })
 }
 
   const handleNotesChange = (updatedNotes) => {
     setEncounterNotes(updatedNotes)
-    console.log('Notes updated:', updatedNotes)
   }
 
   const formatDate = (date) => {
@@ -135,19 +140,6 @@ export function MedicalInterface() {
           <p className="text-sm text-gray-600">Duration: {medication.duration}</p>
           <p className="text-sm text-gray-600">
             Started: {formatDate(medication.startdate)}
-          </p>
-        </div>
-      )
-    },
-    {
-      id: 'symptom',
-      label: 'Symptom',
-      content: (
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-medium">{symptom.symptom}</h3>
-          <p className="text-sm text-gray-600">
-            Since: {formatDate(symptom.startdate)}
-            Occurence: {formatDate(symptom.occurence)}
           </p>
         </div>
       )
