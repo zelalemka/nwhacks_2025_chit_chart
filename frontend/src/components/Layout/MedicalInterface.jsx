@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AudioPanel } from '../AudioPanel/AudioPanel';
 import { StickyNoteBoard } from '../StickyNoteBoard/StickyNoteBoard';
 import { TabPanel } from '../TabPanel/TabPanel';
+import logoImage from '../../assets/small_logo.png';
 
 // Mock data 
 const clinician = {
@@ -13,8 +14,8 @@ const clinician = {
 const patient = {
   id: 4,
   healthcare_number: 1424612672,
-  first_name: 'Freddy',
-  last_name: 'Thompson',
+  first_name: 'Dillon',
+  last_name: 'Lee',
   birthdate: new Date('2012-01-01')
 }
 
@@ -163,14 +164,15 @@ export function MedicalInterface() {
   ]
 
   return (
-    <div className="min-h-screen bg-app-background flex flex-row">
+    <div className=" bg-cover min-h-screen bg-app-background bg-no-repeat flex flex-row">
 
       {/* Main Panel */}
       <div className="w-3/4 p-10">
 
         {/* Physician Profile */}
-        <div className="p-4">
-          <h1 className="text-xl font-semibold">
+        <div className="p-4 flex flex-row">
+          <img src={logoImage} alt='chit-chart logo' className='w-10 h-7 mt-1 mr-2' ></img>
+          <h1 className="text-3xl font-semibold ">
             Welcome Back, Doctor
           </h1>
         </div>
@@ -181,14 +183,12 @@ export function MedicalInterface() {
       </div>
 
       {/* Side Panel */}
-      <div className="w-1/4">
-        <div className="flex flex-col">
-          <div className="bg-white p-4 rounded-lg m-5 shadow-md">
-            <StickyNoteBoard
-              initialNotes={encounterNotes}
-              onNoteChange={handleNotesChange}
-            />
-          </div>
+      <div className="w-1/4 flex flex-col">
+        <div className="bg-white/50 backdrop-filter backdrop-blur-sm flex-grow p-4 rounded-lg shadow-md">
+          <StickyNoteBoard
+            initialNotes={encounterNotes}
+            onNoteChange={handleNotesChange}
+          />
         </div>
       </div>
     </div>
