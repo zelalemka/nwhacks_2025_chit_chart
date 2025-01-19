@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'app-background': "url('src/assets/bg.svg')",
+        'custom-noise': "url('src/assets/noise.svg')",
+      },
+    },
   },
   plugins: [],
 }
