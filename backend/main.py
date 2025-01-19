@@ -61,6 +61,9 @@ class Encounter(BaseModel):
     transcript: str
     notes: List[str]
 
+def joelsfunction(data):
+    return ''
+
 @app.post("/create_encounter")
 async def create_encounter(data: Encounter):
     encounter = {'clinician_id': data.clinician_id, 'patient_id': data.patient_id, 'audio_transcript': data.transcript}

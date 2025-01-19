@@ -71,6 +71,8 @@ const symptoms = [
   }
 ]
 
+const port = 'https://93a7-128-189-239-208.ngrok-free.app';
+
 export function MedicalInterface() {
   const patient_id = patient['id'];
   const clinician_id = clinician['id']; 
@@ -78,7 +80,7 @@ export function MedicalInterface() {
    
   const postTranscriptRequest = async (fulltranscript) => {
    console.log("post Transcript: " + fulltranscript);
-   fetch("http://127.0.0.1:8000/create_encounter", {
+   fetch(`${port}/create_encounter`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
