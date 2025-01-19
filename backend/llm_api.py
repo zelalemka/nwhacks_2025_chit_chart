@@ -27,6 +27,7 @@ I don’t smoke, but I  have 3-4 drinks during parties on the weekends.
 Sounds good, any other substances, like marijuana?”
 I tried marijuana once recently. Nothing else.
 """
+sticky_notes = ['Heart palpitations approximately once or twice a month' , 'Non-painful', 'Takes Adderall as a study aid', 'Social drinking' , 'Tried marijuana once, no substances', 'might have asthma']
 
 
 
@@ -36,8 +37,7 @@ def send_llm_request(transcript, sticky_notes):
     model_name = "Llama-3.3-70B-Instruct"
     token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
 
-    sticky_notes = ["Note1", "Note2"]
-    query = """Can you go throught this medical appointment and summarize key points into the following categories in the following format:
+    query = """Can you go throught this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
     Medication: [<medication bullet points>]
     Symptoms: [<symptom bullet points>]
@@ -47,8 +47,16 @@ def send_llm_request(transcript, sticky_notes):
     Could you provide this as a JSON String? Please include JUST the JSON string in your response.
 
 
+    Could you provide this as a JSON String? Please include JUST the JSON string in your response.
+
+
     Transcript:\n
     """ + transcript
+
+    Transcript:\n
+    """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
+
+    print(query)
 
 
     client = ChatCompletionsClient(
@@ -80,7 +88,7 @@ def send_llm_request(transcript, sticky_notes):
 
 
 
+llm_response_json = send_llm_request(transcript, sticky_notes)
 
-llm_response_json = send_llm_request(transcript, [])
 print(llm_response_json)
 print(type(llm_response_json))

@@ -96,7 +96,7 @@ export function MedicalInterface() {
       if (response.ok) {
         return response.json();
       } else {
-          throw `error with status ${response.status}`;
+        throw `error with status ${response.status}`;
       }
     }).then((data) => {
       console.log(data);
@@ -183,7 +183,7 @@ export function MedicalInterface() {
       {/* Side Panel */}
       <div className="w-1/4">
         <div className="flex flex-col">
-          <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className="bg-white p-4 rounded-lg m-5 shadow-md">
             <StickyNoteBoard
               initialNotes={encounterNotes}
               onNoteChange={handleNotesChange}

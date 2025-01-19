@@ -41,13 +41,7 @@ app.add_middleware(
 )
 
 def send_llm_request(transcript, sticky_notes):
-
-    endpoint = "https://models.inference.ai.azure.com"
-    model_name = "Llama-3.3-70B-Instruct"
-    token = os.environ["GITHUB_TOKEN"] # EXPORT GITHUB PAT
-
-    sticky_notes = ["Note1", "Note2"]
-    query = """Can you go throught this medical appointment and summarize key points into the following categories in the following format:
+    query = """Can you go throught this medical appointment transcript along with the various sticky notes and summarize key points together into the following categories in the following format:
 
     Medication: [<medication bullet points>]
     Symptoms: [<symptom bullet points>]
@@ -58,8 +52,8 @@ def send_llm_request(transcript, sticky_notes):
 
 
     Transcript:\n
-    """ + transcript
 
+    """ + transcript + '\nSticky  Notes: \n' + "\n".join(sticky_notes)
 
     client = ChatCompletionsClient(
         endpoint=endpoint,
@@ -139,8 +133,9 @@ async def create_encounter(data: Encounter):
         .insert(e_note)
         .execute())
 
-    obj = ""
-    return {'encounter_response': response.data, 'notes_response': e_notes, "processed": obj, "transcript": data.transcript}
+    processed_llm_outputs = send_llm_request(data.transcript, data.notes)
+    return {'encounter_response': response.data, 'notes_response': e_notes, "processed": processed_llm_outputs, "transcript": data.transcript}
+
 
 # class Item(BaseModel):
 #     name: str
