@@ -1,16 +1,7 @@
 import { TabPanel } from '../TabPanel/TabPanel';
+import logoImage from '../../assets/small_logo.png';
 
 const encounters = [
-    {
-        'id': 61,
-        'created_at': '2025-01-19T16:12:46.884733+00:00',
-        'startdatetime': '2025-01-19T16:12:46.884733',
-        'enddatetime': '2025-01-19T16:12:46.884733',
-        'clinician_id': 2,
-        'patient_id': 4,
-        'audio_transcript': "how to make husband okay Adderall is it medication they've been taking that should definitely raise up all the flags and then I am lactose intolerant and then I nearly fainted an experience",
-        'encounter_summary': 'The patient is experiencing symptoms such as palpitations and nearly fainting, and has a history of lactose intolerance, while their husband is taking Adderall which may be a concern.'
-    },
     {
         'id': 62,
         'created_at': '2025-01-19T16:53:19.533911+00:00',
@@ -31,10 +22,12 @@ export function PatientInterface({ structuredData }) {
 
                 {/* Client Profile */}
                 <div className="p-4 flex flex-col">
-
-                    <h1 className="text-3xl font-semibold ">
-                        Welcome Back, Dillon
-                    </h1>
+                    <div className="flex flex-row">
+                        <img src={logoImage} alt='chit-chart logo' className='w-10 h-7 mt-1 mr-2' ></img>
+                        <h1 className="text-3xl font-semibold ">
+                            Welcome Back, Dillon
+                        </h1>
+                    </div>
 
                     <div>
                         <h2 className="text-xl font-semibold my-4">Health Record</h2>
@@ -48,7 +41,22 @@ export function PatientInterface({ structuredData }) {
             {/* Side Panel */}
             <div className="w-1/4 flex flex-col">
                 <div className="bg-white/50 backdrop-filter backdrop-blur-sm flex-grow p-4 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold text-center my-2">Appointment History</h2>
+                    <h2 className="text-xl font-semibold text-center mt-3 mb-4">Appointment History</h2>
+                    <div className="space-y-4">
+                        {encounters.map((encounter) => (
+                            <div
+                                key={encounter.id}
+                                className="bg-white-50 p-6 mx-2 rounded-lg backdrop-filter backdrop-blur-sm shadow-md bg-opacity-30"
+                            >
+                                <p className="text-gray-500">
+                                    <span className="font-bold">Date:</span>  {new Date(encounter.created_at).toLocaleDateString()}
+                                </p>
+                                <p className="text-gray-800">
+                                    <span className="font-bold">Summary:</span>  {encounter.encounter_summary}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
