@@ -34,28 +34,12 @@ const initialEncounterNotes = [
   }
 ]
 
-const medications = [{
-  medication: "insulin",
-  startdate: new Date("2024-01-05"),
-  duration: "1 year",
-  dose: "every day, after meals"
-}]
-const conditions = [{condition: "Diabetes type II"}];
-const symptoms = [{symptom:"stomachache"}, {symptom:"nausea"}];
-
-const initialStructuredData = {
-  "conditions": conditions,
-  'symptoms': symptoms,
-  "medications": medications
-}
-
 const port = 'https://4490-128-189-239-208.ngrok-free.app';
 
-export function MedicalInterface() {
+export function MedicalInterface({ structuredData, setStructuredData }) {
   const patient_id = patient['id'];
   const clinician_id = clinician['id'];
   const [encounterNotes, setEncounterNotes] = useState(initialEncounterNotes);
-  const [structuredData, setStructuredData] = useState(initialStructuredData);
 
   const postTranscriptRequest = async (fulltranscript) => {
     console.log("post Transcript: " + fulltranscript);

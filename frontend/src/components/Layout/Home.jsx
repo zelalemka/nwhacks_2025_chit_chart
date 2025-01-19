@@ -4,7 +4,7 @@ import bigLogo from '../../assets/chit_chart_logo.svg';
 export function Home() {
     const navigate = useNavigate();
 
-    const handleClick = () => {
+    const handleClickDoctor = () => {
         navigate('/doctor');
     }
 
@@ -16,7 +16,7 @@ export function Home() {
         <div className='text-3xl font-semibold flex-col m-5 p-5 w-2/5'>
             <div className=' text-center'>Are you a:</div>
             <div className='flex flex-row gap-5 m-5'>
-                <button onClick={handleClick} className='bg-sky-500/20 font-medium backdrop-filter backdrop-blur-sm flex-grow p-4 rounded-lg shadow-md'>Doctor</button>
+                <button onClick={handleClickDoctor} className='bg-sky-500/20 font-medium backdrop-filter backdrop-blur-sm flex-grow p-4 rounded-lg shadow-md'>Doctor</button>
                 <button onClick={handleClickPatient} className='bg-orange-500/20 font-medium backdrop-filter backdrop-blur-sm flex-grow p-4 rounded-lg shadow-md'>Patient</button>
             </div>
         </div>
