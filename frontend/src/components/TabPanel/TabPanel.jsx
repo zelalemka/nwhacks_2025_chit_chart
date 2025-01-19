@@ -11,7 +11,7 @@ export function TabPanel({ tabs, className = '' }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`
-              flex-1 px-4 py-3 text-sm font-medium
+              flex-1 px-4 py-3 text-sm font-semibold
               transition-colors duration-200
               ${activeTab === tab.id
                 ? 'text-sky-600 border-b-2 border-sky-600'
