@@ -1,2 +1,2 @@
 # nwhacks_2025_chit_chart
-Chit Chart
+Chit Chart - People over Paperwork
