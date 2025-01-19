@@ -1,6 +1,9 @@
 # run everytime
 linux https://fastapi.tiangolo.com/virtual-environments/#activate-the-virtual-environment 
 windows powershell `.\.venv\Scripts\activate` `Get-Command python` `python -m pip install --upgrade pip` `pip install "fastapi[standard]"`
+pip install azure-ai-inference
+<!-- Export environment variable -->
+$Env:GITHUB_TOKEN="<Your GitHub access token here>" 
 
 # Initialization
 `python -m venv .venv`
@@ -35,3 +38,5 @@ numpy
 spacy
 supabase
 "fastapi[standard]"
+azure-ai-inference
+
